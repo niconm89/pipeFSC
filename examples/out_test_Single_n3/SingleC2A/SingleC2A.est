@@ -1,0 +1,19 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max 
+//all Ns are in number of haploid individuals
+1  ANCSIZE     unif     100  1500000   output
+1  NPOP1     unif     100  1500000   output
+1  TANC     unif     50  150000   output	bounded
+1  TREC     unif    1000  13000	 output bounded	
+
+[RULES]
+
+TANC > TREC
+
+[COMPLEX PARAMETERS]
+
+0  RESIZE1 = NPOP1/1043145     hide
+0  RESIZE2 = ANCSIZE/NPOP1     hide

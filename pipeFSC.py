@@ -49,30 +49,17 @@ def calculate_AIC(model, outdir):
     os.chdir(cwd)
 #end
 def generate_PV_table(outdir, model_list):
-    file_path_Single = os.path.join(outdir, "model_Single_PV.tsv")
-    file_path_Multi = os.path.join(outdir, "model_Multi_PV.tsv")
-    with open(file_path_Single, 'w') as f_single, open(file_path_Multi, 'w') as f_multi:
-        f_single.write("model_name\tpv\tANCSIZE\tNPOP1\tTANC\tTREC\n")
-        f_multi.write("model_name\tpv\tANCSIZE\tNPOP1\tNPOP2\tNPOP3\tTDIV1\tTDIV2\tMIG1\tMIG2\tMIG3\n")
+    file_path = os.path.join(outdir, "model_PV.tsv")
+    with open(file_path, 'w') as f:
+        #header = {'model_name':'-', 'pv':'-', 'ANCSIZE':'-','NPOP1':'-','NPOP2':'-','NPOP3':'-','TDIV1':'-','TDIV2':'-','TANC':'-','TREC':'-','MIG1':'-','MIG2':'-','MIG3':'-'}
+        #header_line = "model_name\tpv\tANCSIZE\tNPOP1\tNPOP2\tNPOP3\tTDIV1\tTDIV2\tTANC\tTREC\tMIG1\tMIG2\tMIG3\n"
+        #f.write(header_line + "\n")
         for model_name in model_list:
-            if "Multi" in model_name:
-                file_path = os.path.join(outdir, model_name, f"{model_name}.pv")
-                with open(file_path, 'r') as g:
-                    lines = g.readlines()
-                    variables = lines[1].strip().split()
-                    f_multi.write(f"{model_name}\t")
-                    for variable in variables:
-                        f_multi.write(f"{variable}\t")
-                    f_multi.write("\n")
-            elif "Single" in model_name:
-                file_path = os.path.join(outdir, model_name, "bestrun", f"{model_name}.pv")
-                with open(file_path, 'r') as g:
-                    lines = g.readlines()
-                    variables = lines[1].strip().split()
-                    f_single.write(f"{model_name}\t")
-                    for variable in variables:
-                        f_single.write(f"{variable}\t")
-                    f_single.write("\n")
+            file_path = os.path.join(outdir, model_name, "bestrun", f"{model_name}.pv")
+            with open(file_path, 'r') as g:
+                lines = g.readlines()
+                f.write("## " + model_name + ":\n" + ''.join(lines[0]) + ''.join(lines[1]) + "\n\n")
+                #f.write("\n")
 #end
 def generate_AIC_table(outdir, model_list):
     file_path = os.path.join(outdir, "model_AIC.tsv")
