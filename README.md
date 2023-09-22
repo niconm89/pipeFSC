@@ -1,6 +1,6 @@
-# wfFSC - workflow for FastSimCoal Demographic Models Pipeline
+# pipeFSC - Pipeline for Fastsimcoal demographic simulations 
 
-This is a Python pipeline for running FastSimCoal (FSC) demographic models with replicates. It automates the process of setting up and running FSC models, selecting the best run for each model, calculating AIC scores, and generating PV (Posterior Variance) tables.
+This is a Python pipeline for running Fastsimcoal (FSC). It automates the process of setting up and running FSC models, selecting the best run for each model, calculating AIC scores, and generating files for posterior confidence intervals estimations.
 
 ## Table of Contents
 - [Installation](#installation)
