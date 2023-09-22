@@ -1,0 +1,11 @@
+// Priors and rules file
+// *********************
+
+[PARAMETERS]
+//#isInt? #name   #dist.#min  #max 
+//all Ns are in number of haploid individuals
+1  TANC     unif     50  1000000   output
+
+[RULES]
+
+[COMPLEX PARAMETERS]
