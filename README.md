@@ -10,32 +10,56 @@ This is a Python pipeline for running Fastsimcoal (FSC). It automates the proces
 
 ## Installation
 
-To use the `wfFSC` pipeline, follow these steps:
+To use the `pipeFSC` pipeline, follow these steps:
 
 1. Clone this repository to your local machine:
 
-    git clone https://github.com/niconm89/wfFSC.git
-
+    ```bash
+    git clone https://github.com/niconm89/pipeFSC.git
+    ```
 
 2. Navigate to the cloned directory:
 
-    cd wfFSC
+    ```bash
+    cd pipeFSC
+    ```
 
 3. Make sure you have the required dependencies installed:
 
 - Python
 - R
-- FastSimCoal (FSC)
+    - optparse
+    - plotrix
+    - shape
+- [FastSimCoal (FSC)](http://cmpg.unibe.ch/software/fastsimcoal2/)
 
 4. Run the pipeline using the provided Python script:
-
-python wfFSC.py -m /path/to/model/files -o /output/directory -n 100 -t 2
-
-Replace `/path/to/model/files` with the path to the directory containing the necessary FSC model files (*.est, *.tpl, and *_MSFS.obs). You can also specify the number of replicates (`-n`) and the number of threads (`-t`) for running the models.
+    ```bash
+    python pipeFSC.py -m /path/to/model/files -o /output/directory -n 100 -t 2
+    ```
+    Replace `/path/to/model/files` with the path to the directory containing the necessary FSC model files (*.est, *.tpl, and *_MSFS.obs). Note that you must place all the three files for each model you want to run in the same directory (`-m /path/to/model/files`, see below). You can also specify the number of replicates (`-n`) and the number of threads (`-t`) for running the models.
+    ```bash
+    $ ls pipeFSC/examples/test_SingleC_n3/
+    SingleC0.est
+    SingleC1.est
+    SingleC2A.est
+    SingleC2B.est
+    SingleC2N.est
+    SingleC0_MSFS.obs
+    SingleC1_MSFS.obs
+    SingleC2A_MSFS.obs
+    SingleC2B_MSFS.obs
+    SingleC2N_MSFS.obs
+    SingleC0.tpl
+    SingleC1.tpl
+    SingleC2A.tpl
+    SingleC2B.tpl
+    SingleC2N.tpl
+    ```
 
 ## Usage
 
-python wfFSC.py -m /path/to/model/files -o /output/directory -n 100 -t 2
+python pipeFSC.py -m /path/to/model/files -o /output/directory -n 100 -t 2
 
 - `-m` or `--modeldir`: Path to the directory containing the three required files (*.est, *.tpl, and *_MSFS.obs) for each model selected.
 - `-o` or `--outdir`: Path to the directory where the results will be saved. If the output directory does not exist, it will be created. (Default: 03_phylogenetic_tree)
@@ -50,4 +74,4 @@ This pipeline is distributed under the [MIT License](LICENSE).
 
 You can find usage examples and more information in the [examples](examples/) directory.
 
-If you encounter any issues or have questions, please [open an issue](https://github.com/niconm89/wfFSC/issues) on the GitHub repository.
+If you encounter any issues or have questions, please [open an issue](https://github.com/niconm89/pipeFSC/issues) on the GitHub repository.
