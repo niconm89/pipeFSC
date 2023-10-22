@@ -61,8 +61,8 @@ def main():
     # Create the argument parser
     parser = argparse.ArgumentParser(description='Script to execute fsc26 and fsc commands')
     parser.add_argument('-m', '--modeldir', type=str, default='BestModel', help='Path to the model directory.')
-    parser.add_argument('-t', '--threads', type=int, default=8, help='Number of threads (Default: 8)')
-    parser.add_argument('-n', '--nruns', type=int, default=100, help='Number of independent runs.')
+    parser.add_argument('-t', '--threads', type=int, default=8, help='Number of threads (Default: 8).')
+    parser.add_argument('-n', '--nruns', type=int, default=100, help='Number of independent runs (Default: 100.')
     # Obtener los argumentos del usuario
     args = parser.parse_args()
     # Verificar si la carpeta Bestmodel y el archivo config.txt existen

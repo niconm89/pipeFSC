@@ -124,10 +124,9 @@ To use the `pipeFSC` pipeline, follow these steps:
 
 #### Aca va la descripcion del analisis
 
-- `-m` or `--modeldir`: Path to the directory containing the three required files (*.est, *.tpl, and *_MSFS.obs) for each model selected.
-- `-o` or `--outdir`: Path to the directory where the results will be saved. If the output directory does not exist, it will be created. (Default: 03_phylogenetic_tree)
-- `-n` or `--nruns`: Number of model run replicates. (Default: 1000)
-- `-t` or `--threads`: Number of threads to run. (Default: 8)
+- `-m` or `--modeldir`: Path to the model directory.
+- `-n` or `--nruns`: Number of independent runs. (Default: 1000)
+- `-t` or `--threads`: Number of threads. (Default: 8)
 
 ----------
 ### Examples
