@@ -57,8 +57,8 @@ To use the `pipeFSC` pipeline, follow these steps:
     export PATH=$PATH:/path/to/your/folder
     ```
     This line appends your folder to the existing PATH.
-- Save and Exit: If you're using nano, press `Ctrl + O` to save, and `Ctrl + X` to exit.
-- Source the File: To apply the changes immediately, run:
+- **Save and Exit**: If you're using nano, press `Ctrl + O` to save, and `Ctrl + X` to exit.
+- **Source the File**: To apply the changes immediately, run:
 
     ```bash
     source ~/.bashrc
