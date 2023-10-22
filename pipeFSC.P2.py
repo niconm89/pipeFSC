@@ -60,9 +60,9 @@ def run_fsc_step2(modeldir, threads, nruns):
 def main():
     # Create the argument parser
     parser = argparse.ArgumentParser(description='Script to execute fsc26 and fsc commands')
-    parser.add_argument('--modeldir', type=str, default='BestModel', help='Path to the model directory.')
-    parser.add_argument('--threads', type=int, default=8, help='Number of threads (Default: 8)')
-    parser.add_argument('--nruns', type=int, default=100, help='Number of independent runs.')
+    parser.add_argument('-m', '--modeldir', type=str, default='BestModel', help='Path to the model directory.')
+    parser.add_argument('-t', '--threads', type=int, default=8, help='Number of threads (Default: 8)')
+    parser.add_argument('-n', '--nruns', type=int, default=100, help='Number of independent runs.')
     # Obtener los argumentos del usuario
     args = parser.parse_args()
     # Verificar si la carpeta Bestmodel y el archivo config.txt existen
@@ -71,9 +71,17 @@ def main():
         return
     # Ejecutar los comandos fsc26 y fsc con los argumentos especificados
     cwd = os.getcwd()
+    print("Model directory: " + args.modeldir)
+    print("Number of independent runs: " + str(args.nruns))
+    print("Number of threads: " + str(args.threads))
+    print("Arguments checked!\nRunning models: " + ",".join(model_list))
+    # running models
+    print("Running Part1.")
     run_fsc_step1(args.modeldir, args.threads, args.nruns)
+    print("Running Part2.")
     os.chdir(cwd)
     run_fsc_step2(args.modeldir, args.threads, args.nruns)
+    print("Pipeline finished.")
 
 if __name__ == "__main__":
     main()
