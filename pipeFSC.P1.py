@@ -1,4 +1,9 @@
 #!/usr/bin/env python
+"""
+Created on Mon Oct  09 14:13:22 2023
+
+@author: Nicolás Nahuel Moreyra (niconm89@gmail.com; https://github.com/niconm89)
+"""
 
 #%% Imports
 import argparse
