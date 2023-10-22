@@ -204,9 +204,6 @@ if __name__ == '__main__':
 	generate_AIC_table(args.outdir, model_list)
 	print("Generating PV table.")
 	generate_PV_table(args.outdir, model_list)
-	print("Pipeline finished.")
+	print("pipeFSC part 1 has finished.")
 	print(f'Time taken to run: {time.time() - start} seconds.')
-    # This is the main part of the script. It first parses the command line arguments, then starts the timer,
-	# runs the model_partitions function with the parsed arguments, then prints the time taken to run.
 #end
-

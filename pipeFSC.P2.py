@@ -58,6 +58,7 @@ def run_fsc_step2(modeldir, threads, nruns):
         raise RuntimeError(f"Check your tpl, est and initValues files.")
 #end
 def main():
+    start = time() #time 0
     # Create the argument parser
     parser = argparse.ArgumentParser(description='Script to execute fsc26 and fsc commands')
     parser.add_argument('-m', '--modeldir', type=str, default='BestModel', help='Path to the model directory.')
@@ -81,7 +82,8 @@ def main():
     print("Running Part2.")
     os.chdir(cwd)
     run_fsc_step2(args.modeldir, args.threads, args.nruns)
-    print("Pipeline finished.")
+    print("pipeFSC part 2 has finished.")
+    print(f'Time taken to run: {time() - start} seconds.')
 
 if __name__ == "__main__":
     main()
