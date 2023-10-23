@@ -8,6 +8,7 @@ Created on Mon Oct  09 14:13:22 2023
 #Imports
 import os
 import argparse
+import time
 
 #Functions
 def run_fsc_step1(modeldir, threads, nruns):
@@ -58,7 +59,7 @@ def run_fsc_step2(modeldir, threads, nruns):
         raise RuntimeError(f"Check your tpl, est and initValues files.")
 #end
 def main():
-    start = time() #time 0
+    start = time.time() #time 0
     # Create the argument parser
     parser = argparse.ArgumentParser(description='Script to execute fsc26 and fsc commands')
     parser.add_argument('-m', '--modeldir', type=str, default='BestModel', help='Path to the model directory.')
@@ -75,15 +76,14 @@ def main():
     print("Model directory: " + args.modeldir)
     print("Number of independent runs: " + str(args.nruns))
     print("Number of threads: " + str(args.threads))
-    print("Arguments checked!\nRunning models: " + ",".join(model_list))
     # running models
-    print("Running Part1.")
+    print("Running first command.") #This must be differenciate from the first part of the analysis (pipeFSC.p1.py)
     run_fsc_step1(args.modeldir, args.threads, args.nruns)
-    print("Running Part2.")
+    print("Running second command.")
     os.chdir(cwd)
     run_fsc_step2(args.modeldir, args.threads, args.nruns)
     print("pipeFSC part 2 has finished.")
-    print(f'Time taken to run: {time() - start} seconds.')
+    print(f'Time taken to run: {time.time() - start} seconds.')
 
 if __name__ == "__main__":
     main()
