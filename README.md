@@ -1,152 +1,128 @@
-# pipeFSC - Pipeline for Fastsimcoal demographic simulations 
+# pipeFSC: pipeline for fastsimcoal2 demographic inference
 
-This is a Python pipeline for running Fastsimcoal (FSC). It automates the process of setting up and running FSC models, selecting the best run for each model, calculating AIC scores, and generating files for posterior confidence intervals estimations.
+I wrote pipeFSC during my postdoc to run the demographic inference behind
+[Poveda-Martínez et al. (2024, *Biological Invasions*)](https://doi.org/10.1007/s10530-024-03317-2),
+where we compared alternative demographic scenarios for the cactus moth, *Cactoblastis cactorum*.
+It automates the repetitive part of working with fastsimcoal2: running many replicates per model,
+keeping the best run, comparing models by AIC and running the parametric bootstrap for confidence intervals.
 
 ----------
 
 ## Table of Contents
 - [Installation](#installation)
 - [Usage](#usage)
+- [Limitations](#limitations)
+- [Citation](#citation)
 - [License](#license)
-- [Examples](#examples)
+
 ----------
 
 ## Installation
 
-To use the `pipeFSC` pipeline, follow these steps:
-
-1. **Clone this repository to your local machine**:
+1. **Clone this repository**:
 
     ```bash
     git clone https://github.com/niconm89/pipeFSC.git
-    ```
-
-2. **Navigate to the cloned directory**:
-
-    ```bash
     cd pipeFSC
     ```
 
-3. **Make sure you have the required dependencies installed**:
+2. **Install the dependencies**:
 
-- Python
-- R
-    - optparse
-    - plotrix
-    - shape
-- [FastSimCoal (FSC)](http://cmpg.unibe.ch/software/fastsimcoal2/)
+    - Python 3
+    - R, with the packages `optparse`, `plotrix` and `shape`
+    - [fastsimcoal2](https://cmpg.unibe.ch/software/fastsimcoal2/) (not included in this repository).
+      Download it from the official site and place the executable in `scripts/` with the name `fsc26`,
+      which is the name the pipeline expects:
 
-4. **Add pipeFSC path to your $PATH variable**
+        ```bash
+        cp /path/to/downloaded/fsc_executable scripts/fsc26
+        chmod +x scripts/fsc26
+        ```
 
-    To add a folder to the system's PATH in a Linux/Unix system, you can follow these steps:
+      pipeFSC was developed with version 2.6. If you use fastsimcoal2, please cite:
+      Excoffier L. et al. (2021). fastsimcoal2: demographic inference under complex evolutionary
+      scenarios. *Bioinformatics*, 37(24), 4882–4885.
 
-- **Open a Terminal**: You'll need to use the command line.
-- **Identify the Folder**: Ensure you know the full path to the folder you want to add to the PATH. For example, let's say your folder is located at /path/to/your/folder.
-- **Edit the .bashrc or .bash_profile File**: You'll typically edit your user-specific configuration file. This file is located in your home directory, and you can use a text editor like nano or vi to open it. For example, use:
-    ```bash
-    nano ~/.bashrc
-    ```
-    or
-
-    ```bash
-    nano ~/.bash_profile
-    ```
-
-- **Add the Folder to PATH**: Add the following line to the file, replacing /path/to/your/folder with the actual folder path:
-    ```bash
-    export PATH=$PATH:/path/to/your/folder
-    ```
-    This line appends your folder to the existing PATH.
-- **Save and Exit**: If you're using nano, press `Ctrl + O` to save, and `Ctrl + X` to exit.
-- **Source the File**: To apply the changes immediately, run:
+3. **Optional: add the repository folder to your PATH** to run the scripts from any directory
+   (add the line to `~/.bashrc` to make it permanent):
 
     ```bash
-    source ~/.bashrc
+    export PATH=$PATH:/path/to/pipeFSC
     ```
-    or
 
-    ```bash
-    source ~/.bash_profile
-    ```
-    This step is necessary to refresh your terminal with the updated PATH.
-
-- **Verify the Change**: You can check if the folder has been added to the PATH by running:
-
-    ```bash
-    echo $PATH
-    ```
-    You should see your folder's path in the list.
-
-    Your folder should now be part of the system's PATH, making it easier to run executables and scripts located within that folder from any directory in your terminal.
-
-    This process is common on Linux/Unix systems, but please note that the specific file you need to edit (.bashrc or .bash_profile) can vary depending on your shell (e.g., Bash, Zsh, etc.). If you're using a different shell, you may need to modify a different configuration file.
-
-    **Note**: Ensure that you have the necessary permissions to edit these configuration files. If you're not the system administrator, you might need to use sudo to gain the required permissions.
-
-5. **Run the pipeline using the provided Python script**:
-    ```bash
-    python pipeFSC.py -m /path/to/model/files -o /output/directory -n 100 -t 2
-    ```
-    **Replace** `/path/to/model/files` with the path to the directory containing the necessary FSC model files (*.est, *.tpl, and *_MSFS.obs). 
-    
-    **Note** that you must place all the three files for each model you want to run in the same directory (`-m /path/to/model/files`, see below). You can also specify the number of replicates (`-n`) and the number of threads (`-t`) for running the models.
-    ```bash
-    $ ls pipeFSC/examples/test_SingleC_n3/
-    SingleC0.est
-    SingleC1.est
-    SingleC2A.est
-    SingleC2B.est
-    SingleC2N.est
-    SingleC0_MSFS.obs
-    SingleC1_MSFS.obs
-    SingleC2A_MSFS.obs
-    SingleC2B_MSFS.obs
-    SingleC2N_MSFS.obs
-    SingleC0.tpl
-    SingleC1.tpl
-    SingleC2A.tpl
-    SingleC2B.tpl
-    SingleC2N.tpl
-    ```
 ----------
+
 ## Usage
 
-### pipeFSC part1
+### Part 1: model fitting and selection (`pipeFSC.P1.py`)
 
-#### Aca va la descripcion del analisis
+For each model found in `--modeldir`, runs `--nruns` independent fastsimcoal2 replicates
+(100,000 simulations, 40 ECM cycles, maximum-likelihood estimation from the multidimensional SFS),
+keeps the replicate with the highest likelihood, computes its AIC, and writes two summary tables
+to `--outdir`: `model_AIC.tsv` and `model_PV.tsv`.
 
-- `-m` or `--modeldir`: Path to the directory containing the three required files (*.est, *.tpl, and *_MSFS.obs) for each model selected.
-- `-o` or `--outdir`: Path to the directory where the results will be saved. If the output directory does not exist, it will be created. (Default: 03_phylogenetic_tree)
-- `-n` or `--nruns`: Number of model run replicates. (Default: 1000)
-- `-t` or `--threads`: Number of threads to run. (Default: 8)
+- `-m`, `--modeldir`: directory with the three files of each model (`*.est`, `*.tpl`, `*_MSFS.obs`). Required.
+- `-o`, `--outdir`: output directory; created if it does not exist. Required.
+- `-n`, `--nruns`: number of independent replicates per model. Default: 100.
+- `-t`, `--threads`: currently has no effect (see [Limitations](#limitations)).
 
-### pipeFSC part2
+The three files of each model must share the model name, for example:
 
-#### Aca va la descripcion del analisis
+```
+SingleC0.est
+SingleC0.tpl
+SingleC0_MSFS.obs
+```
 
-- `-m` or `--modeldir`: Path to the model directory.
-- `-n` or `--nruns`: Number of independent runs. (Default: 1000)
-- `-t` or `--threads`: Number of threads. (Default: 8)
+### Part 2: confidence intervals by parametric bootstrap (`pipeFSC.P2.py`)
 
-----------
+Simulates `--nruns` SFS from the best model, re-estimates the parameters on each one starting
+from the best-model values, and collects all estimates in `Final_Table.pv` to compute
+confidence intervals.
+
+- `-m`, `--modeldir`: directory with `BestModel.par`, `BestModel.tpl`, `BestModel.est` and `BestModel.pv`. Default: `BestModel`.
+- `-n`, `--nruns`: number of bootstrap replicates. Default: 100.
+- `-t`, `--threads`: number of cores for fastsimcoal2. Default: 8.
+
+Part 2 does not prepare its input: the four `BestModel.*` files must be created by hand from
+the best model selected in Part 1.
+
 ### Examples
 
-Part1 
 ```bash
-./pipeFSC.P1.py -m /path/to/model/files -o /output/directory -n 100 -t 4
+python3 pipeFSC.P1.py -m models/ -o results/ -n 100
+python3 pipeFSC.P2.py -m BestModel/ -n 100 -t 8
 ```
 
-Part2
-```bash
-./pipeFSC.P2.py -m /path/to/modeldir -n 100 -t 8
-```
-
-You can find usage examples and more information in the [examples](examples/) directory.
+The [models](models/) directory contains the models used in the study, and
+[examples](examples/) contains a small test run.
 
 ----------
-## Examples
-If you encounter any issues or have questions, please [open an issue](https://github.com/niconm89/pipeFSC/issues) on the GitHub repository.
+
+## Limitations
+
+pipeFSC was written for a specific study and has not been generalized yet:
+
+- Part 1 only recognizes the model names used in the study (hardcoded in `validate_models()`); other models are skipped.
+- In Part 1, fastsimcoal2 runs with 8 cores and 16 batches regardless of `-t`.
+- Part 2 expects its input files with fixed names (`BestModel.*`) and does not generate them from Part 1.
+- In Part 2, the number of SNPs (`--dnatosnp 3287`) and the parameter names in `Final_Table.pv` are specific to the study dataset.
+
+If you run into problems, please [open an issue](https://github.com/niconm89/pipeFSC/issues).
 
 ----------
+
+## Citation
+
+pipeFSC was developed for and used in:
+
+Poveda-Martínez D., Moreyra N.N., Hasson E. et al. (2024). Demographic inference provides
+evidence of a quaternary-driven impact on the cactus moth and sheds light on the putative role
+of an exotic host. *Biological Invasions*, 26, 2313–2327.
+https://doi.org/10.1007/s10530-024-03317-2
+
+----------
+
 ## License
+
 This pipeline is distributed under the [MIT License](LICENSE).
