@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you use pipeFSC, please cite it as below."
+title: "pipeFSC: pipeline for fastsimcoal2 demographic inference"
+type: software
+authors:
+  - family-names: "Moreyra"
+    given-names: "Nicolás Nahuel"
+    email: "niconm89@gmail.com"
+    orcid: "https://orcid.org/0000-0003-0451-2399"
+repository-code: "https://github.com/niconm89/pipeFSC"
+license: MIT
+version: "1.0.0"
+date-released: "2026-11-06"
+keywords:
+  - fastsimcoal2
+  - demographic inference
+  - population genomics
+references:
+  - type: article
+    title: "Demographic inference provides evidence of a quaternary-driven impact on the cactus moth and sheds light on the putative role of an exotic host"
+    authors:
+      - family-names: "Poveda-Martínez"
+        given-names: "D."
+      - family-names: "Moreyra"
+        given-names: "N. N."
+      - family-names: "Hasson"
+        given-names: "E."
+      - family-names: "Varone"
+        given-names: "L."
+    journal: "Biological Invasions"
+    volume: 26
+    start: 2313
+    end: 2327
+    year: 2024
+    doi: "10.1007/s10530-024-03317-2"
